@@ -15,14 +15,21 @@ export class App extends Component {
 	componentDidMount() {
     getUrls()
       .then(urls => this.setState({ urls: urls.urls }));
-	}
+  }
+  
+  submitUrl = ({ title, urlToShorten }) => {
+    const urlObject = {
+      title,
+      long_url: urlToShorten
+    }
+  }
 
 	render() {
 		return (
 			<main className='App'>
 				<header>
 					<h1>URL Shortener</h1>
-					<UrlForm />
+					<UrlForm submitUrl={this.submitUrl} />
 				</header>
 
 				<UrlContainer urls={this.state.urls} />
