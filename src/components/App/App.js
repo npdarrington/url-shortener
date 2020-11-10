@@ -37,7 +37,6 @@ export class App extends Component {
 		deleteUrl(id)
 			.then(data => {
 				if (data !== 'error') {
-					console.log(data);
 					this.setState({ urls: filterLocalUrls });
 				} else {
 					throw new Error('something went wrong');
