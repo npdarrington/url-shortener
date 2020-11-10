@@ -5,9 +5,10 @@ import '@testing-library/jest-dom';
 
 import UrlForm from './UrlForm';
 
+const mockSubmitUrl = jest.fn();
+
 describe('UrlForm', () => {
   beforeEach(() => {
-    const mockSubmitUrl = jest.fn();
     render(<UrlForm submitUrl={mockSubmitUrl} />)
   })
   
@@ -24,6 +25,19 @@ describe('UrlForm', () => {
     userEvent.type(urlInput, 'https://unsplash.com/photos/1p7TrM0LkXc');
     expect(titleInput.value).toBe('Testing 1');
     expect(urlInput.value).toBe('https://unsplash.com/photos/1p7TrM0LkXc');
+  })
+  
+  test('should fire the submitUrl function when submit button is clicked', () => {
+    const titleInput = screen.getByPlaceholderText('Title...');
+    const urlInput = screen.getByPlaceholderText('URL to Shorten...');
+    userEvent.type(titleInput, 'Testing 1');
+    userEvent.type(urlInput, 'https://unsplash.com/photos/1p7TrM0LkXc');
+    userEvent.click(screen.getByRole('button', { name: 'Shorten Please!'}));
+    expect(mockSubmitUrl).toHaveBeenCalledTimes(1);
+    expect(mockSubmitUrl).toHaveBeenCalledWith({
+      title: 'Testing 1',
+      urlToShorten: 'https://unsplash.com/photos/1p7TrM0LkXc'
+    })
   })
   
 })
