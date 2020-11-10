@@ -40,4 +40,11 @@ describe('UrlForm', () => {
     })
   })
   
+  test('should warn user to fill in both inputs if one is left blank', () => {
+    const titleInput = screen.getByPlaceholderText('Title...');
+    userEvent.type(titleInput, 'Testing 1');
+    userEvent.click(screen.getByRole('button', { name: 'Shorten Please!'}));
+    expect(screen.getByText('Both Title and Url to Shorten must be filled in.')).toBeInTheDocument();
+  })
+  
 })
