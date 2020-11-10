@@ -96,5 +96,15 @@ describe('App', () => {
     expect(errMsg).toBeInTheDocument();
   })
   
+  test('should warn user if deleting a url shortener fails', async () => {
+    getUrls.mockResolvedValue(mockUrlData);
+    deleteUrl.mockResolvedValue('error');
+    render(<App />);
+    await waitFor(() => screen.getByRole('heading', { name: 'URL Shortener'}));
+    const getAllDeleteBtns = screen.getAllByRole('button', { name: 'Delete' });
+    userEvent.click(getAllDeleteBtns[1]);
+    const errMsg = await waitFor(() => screen.getByText('We were not able to delete your shortened url'));
+    expect(errMsg).toBeInTheDocument();
+  })
   
 })
