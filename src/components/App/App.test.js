@@ -75,4 +75,11 @@ describe('App', () => {
     await waitFor(() => (expect(deletedTitle).not.toBeInTheDocument()));
   })
   
+  test('should warn use when fetching urls fails', async () => {
+    getUrls.mockResolvedValue('error');
+    render(<App />);
+    const errMsg = await waitFor(() => screen.getByText('We were not able to retrieve your shortened urls'));
+    expect(errMsg).toBeInTheDocument();
+  })
+  
 })
