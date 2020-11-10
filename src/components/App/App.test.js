@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import { getUrls, postUrl } from '../../apiCalls'
+import { getUrls, postUrl, deleteUrl } from '../../apiCalls'
 
 import App from './App';
 
@@ -34,7 +34,7 @@ describe('App', () => {
   test('should render any urls found in fetch call to DOM', async () => {
     getUrls.mockResolvedValue(mockUrlData);
     render(<App />);
-    await waitFor(() => screen.getByRole('heading', { name: 'URL Shortener'}))
+    await waitFor(() => screen.getByRole('heading', { name: 'URL Shortener'}));
     expect(screen.getByText('Testing 1')).toBeInTheDocument();
     expect(screen.getByText('https://unsplash.com/photos/1p7TrM0LkXc')).toBeInTheDocument();
     expect(screen.getByText('http://localhost:3001/useshorturl/1')).toBeInTheDocument();
@@ -52,7 +52,7 @@ describe('App', () => {
       short_url: 'http://localhost:3001/useshorturl/3'
     })
     render(<App />);
-    await waitFor(() => screen.getByRole('heading', { name: 'URL Shortener'}))
+    await waitFor(() => screen.getByRole('heading', { name: 'URL Shortener'}));
     const titleInput = screen.getByPlaceholderText('Title...');
     const urlInput = screen.getByPlaceholderText('URL to Shorten...');
     userEvent.type(titleInput, 'Testing 3');
@@ -63,4 +63,16 @@ describe('App', () => {
     expect(screen.getByText('http://localhost:3001/useshorturl/3')).toBeInTheDocument();
     expect(screen.getByText('https://unsplash.com/photos/1p7TrM0L')).toBeInTheDocument();
   })
+
+  test('should allow a user to delete a url shortener', async () => {
+    getUrls.mockResolvedValue(mockUrlData);
+    deleteUrl.mockResolvedValue(204);
+    render(<App />);
+    await waitFor(() => screen.getByRole('heading', { name: 'URL Shortener'}));
+    const getAllDeleteBtns = screen.getAllByRole('button', { name: 'Delete' });
+    const deletedTitle = screen.getByText('Testing 2');
+    userEvent.click(getAllDeleteBtns[1]);
+    await waitFor(() => (expect(deletedTitle).not.toBeInTheDocument()));
+  })
+  
 })
