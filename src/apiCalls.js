@@ -20,3 +20,15 @@ export const postUrl = (initObject) => {
   })
   .catch(_error => 'error')
 }
+
+export const deleteUrl = (id) => {
+  return fetch(`http://localhost:3001/api/v1/urls/${id}`)
+    .then(response => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw Error;
+      }
+    })
+    .catch(_err => 'error');
+}
