@@ -75,11 +75,26 @@ describe('App', () => {
     await waitFor(() => (expect(deletedTitle).not.toBeInTheDocument()));
   })
   
-  test('should warn use when fetching urls fails', async () => {
+  test('should warn user when fetching urls fails', async () => {
     getUrls.mockResolvedValue('error');
     render(<App />);
     const errMsg = await waitFor(() => screen.getByText('We were not able to retrieve your shortened urls'));
     expect(errMsg).toBeInTheDocument();
   })
+
+  test('should warn user when posting a new url shortener fails', async () => {
+    getUrls.mockResolvedValue(mockUrlData);
+    postUrl.mockResolvedValue('error');
+    render(<App />);
+    await waitFor(() => screen.getByRole('heading', { name: 'URL Shortener'}));
+    const titleInput = screen.getByPlaceholderText('Title...');
+    const urlInput = screen.getByPlaceholderText('URL to Shorten...');
+    userEvent.type(titleInput, 'Testing 3');
+    userEvent.type(urlInput, 'https://unsplash.com/photos/1p7TrM0L');
+    userEvent.click(screen.getByRole('button', { name: 'Shorten Please!'}));
+    const errMsg = await waitFor(() => screen.getByText('We were not able to save your shortened url'));
+    expect(errMsg).toBeInTheDocument();
+  })
+  
   
 })
