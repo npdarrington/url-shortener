@@ -5,28 +5,31 @@ import UrlContainer from '../UrlContainer/UrlContainer';
 import UrlForm from '../UrlForm/UrlForm';
 
 export class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      urls: []
-    }
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			urls: [],
+		};
+	}
 
-  componentDidMount() {
-  }
+	componentDidMount() {
+    getUrls()
+      .then(urls => this.setState({ urls: urls.urls }));
+	}
 
-  render() {
-    return (
-      <main className="App">
-        <header>
-          <h1>URL Shortener</h1>
-          <UrlForm />
-        </header>
+	render() {
+    console.log(this.state.urls);
+		return (
+			<main className='App'>
+				<header>
+					<h1>URL Shortener</h1>
+					<UrlForm />
+				</header>
 
-        <UrlContainer urls={this.state.urls}/>
-      </main>
-    );
-  }
+				<UrlContainer urls={this.state.urls} />
+			</main>
+		);
+	}
 }
 
 export default App;
