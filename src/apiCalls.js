@@ -1,6 +1,13 @@
 export const getUrls = () => {
   return fetch('http://localhost:3001/api/v1/urls')
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          throw Error;
+        }
+      })
+      .catch(_error => 'error');
 }
 
 export const postUrl = (initObject) => {
@@ -26,7 +33,6 @@ export const deleteUrl = (id) => {
     method: "DELETE",
   })
     .then(response => {
-      console.log(response.status);
       if (response.status === 204) {
         return
       } else {
