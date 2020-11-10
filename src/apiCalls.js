@@ -18,5 +18,5 @@ export const postUrl = (initObject) => {
       throw Error;
     }
   })
-  .catch(error => console.log(error.message))
+  .catch(_error => 'error')
 }
