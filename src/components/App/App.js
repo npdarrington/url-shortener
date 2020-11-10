@@ -15,7 +15,13 @@ export class App extends Component {
 
 	componentDidMount() {
     getUrls()
-      .then(urls => this.setState({ urls: urls.urls }));
+      .then(urls => {
+				if (urls !== 'error') {
+					this.setState({ urls: urls.urls, error: '' });
+				} else {
+					this.setState({ error: 'We were not able to retrieve your shortened urls' });
+				}
+			});
   }
   
   submitUrl = ({ title, urlToShorten }) => {
