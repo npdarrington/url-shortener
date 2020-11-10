@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { getUrls, postUrl } from '../../apiCalls';
+import { getUrls, postUrl, deleteUrl } from '../../apiCalls';
 import UrlContainer from '../UrlContainer/UrlContainer';
 import UrlForm from '../UrlForm/UrlForm';
 
@@ -30,7 +30,12 @@ export class App extends Component {
           throw new Error('something went wrong');
         }
       });
-  }
+	}
+	
+	deleteUrl = (id) => {
+		deleteUrl(id)
+			.then(data => console.log(data));
+	}
 
 	render() {
 		return (
