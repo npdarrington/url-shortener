@@ -4,7 +4,7 @@ export const getUrls = () => {
 }
 
 export const postUrl = (initObject) => {
-  return fetch('http://localhost:3001/api/v1/urls', {
+  return fetch('https://cors-anywhere.herokuapp.com/http://localhost:3001/api/v1/urls', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
