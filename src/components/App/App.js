@@ -13,10 +13,6 @@ export class App extends Component {
 	}
 
 	componentDidMount() {
-    this.getAllUrls();
-  }
-
-  getAllUrls = () => {
     getUrls()
       .then(urls => this.setState({ urls: urls.urls }));
   }
@@ -29,7 +25,7 @@ export class App extends Component {
     postUrl(urlObject)
       .then(data => {
         if (data !== 'error') {
-          this.getAllUrls();
+          this.setState({ urls: [...this.state.urls, data]})
         } else {
           throw new Error('something went wrong');
         }
