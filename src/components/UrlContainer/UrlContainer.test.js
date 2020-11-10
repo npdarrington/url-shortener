@@ -28,4 +28,10 @@ describe('UrlContainer', () => {
     expect(screen.getByText('https://images.unsplash.com/photo-1531898418865-480b7090470f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80')).toBeInTheDocument();
     expect(screen.getByText('http://localhost:3001/useshorturl/2')).toBeInTheDocument();
   })
+
+  test('should render a conditional message if no urls are found', () => {
+    render(<UrlContainer urls={[]} />);
+    expect(screen.getByText('No urls yet! Find some to shorten!')).toBeInTheDocument();
+  })
+  
 })
