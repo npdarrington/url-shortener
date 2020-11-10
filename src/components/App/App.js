@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { getUrls } from '../../apiCalls';
+import { getUrls, postUrl } from '../../apiCalls';
 import UrlContainer from '../UrlContainer/UrlContainer';
 import UrlForm from '../UrlForm/UrlForm';
 
@@ -13,6 +13,10 @@ export class App extends Component {
 	}
 
 	componentDidMount() {
+    this.getAllUrls();
+  }
+
+  getAllUrls = () => {
     getUrls()
       .then(urls => this.setState({ urls: urls.urls }));
   }
@@ -22,6 +26,14 @@ export class App extends Component {
       title,
       long_url: urlToShorten
     }
+    postUrl(urlObject)
+      .then(data => {
+        if (data !== 'error') {
+          this.getAllUrls();
+        } else {
+          throw new Error('something went wrong');
+        }
+      });
   }
 
 	render() {
