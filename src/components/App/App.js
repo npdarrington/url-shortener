@@ -9,6 +9,7 @@ export class App extends Component {
 		super(props);
 		this.state = {
 			urls: [],
+			error: ''
 		};
 	}
 
@@ -25,9 +26,9 @@ export class App extends Component {
     postUrl(urlObject)
       .then(data => {
         if (data !== 'error') {
-          this.setState({ urls: [...this.state.urls, data]})
+          this.setState({ urls: [...this.state.urls, data], error: '' })
         } else {
-          throw new Error('something went wrong');
+          this.setState({ error: 'We were not able to save your shortened url' });
         }
       });
 	}
@@ -37,9 +38,9 @@ export class App extends Component {
 		deleteUrl(id)
 			.then(data => {
 				if (data !== 'error') {
-					this.setState({ urls: filterLocalUrls });
+					this.setState({ urls: filterLocalUrls, error: '' });
 				} else {
-					throw new Error('something went wrong');
+					this.setState({ error: 'We were not able to delete your shortened url' });
 				}
 			});
 	}
@@ -49,6 +50,7 @@ export class App extends Component {
 			<main className='App'>
 				<header>
 					<h1>URL Shortener</h1>
+					{this.state.error && <h2>{this.state.error}</h2>}
 					<UrlForm submitUrl={this.submitUrl} />
 				</header>
 
