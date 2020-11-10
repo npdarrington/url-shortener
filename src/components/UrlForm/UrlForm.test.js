@@ -5,3 +5,10 @@ import '@testing-library/jest-dom';
 
 import UrlForm from './UrlForm';
 
+describe('UrlForm', () => {
+  beforeEach(() => {
+    const mockSubmitUrl = jest.fn();
+    render(<UrlForm submitUrl={mockSubmitUrl} />)
+  })
+  
+})
