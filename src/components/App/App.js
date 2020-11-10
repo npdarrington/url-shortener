@@ -33,8 +33,16 @@ export class App extends Component {
 	}
 	
 	deleteUrl = (id) => {
+		const filterLocalUrls = this.state.urls.filter(url => url.id !== id);
 		deleteUrl(id)
-			.then(data => console.log(data));
+			.then(data => {
+				if (data !== 'error') {
+					console.log(data);
+					this.setState({ urls: filterLocalUrls });
+				} else {
+					throw new Error('something went wrong');
+				}
+			});
 	}
 
 	render() {
@@ -45,7 +53,7 @@ export class App extends Component {
 					<UrlForm submitUrl={this.submitUrl} />
 				</header>
 
-				<UrlContainer urls={this.state.urls} />
+				<UrlContainer urls={this.state.urls} deleteUrl={this.deleteUrl} />
 			</main>
 		);
 	}
